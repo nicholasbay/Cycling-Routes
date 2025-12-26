@@ -17,11 +17,13 @@ import requests
 from dotenv import load_dotenv
 
 
-# Configure logging
 ROOT_PATH = Path(__file__).resolve().parent.parent
 LOGS_PATH = ROOT_PATH / 'logs'
 LOGS_PATH.mkdir(exist_ok=True)
+DATA_PATH = ROOT_PATH / 'data'
+DATA_PATH.mkdir(exist_ok=True)
 
+# Configure logging
 logging.basicConfig(
     filename=LOGS_PATH / 'fetch_bicycle_parking.log',
     level=logging.INFO,
@@ -32,8 +34,8 @@ logging.basicConfig(
 # Constants
 API_URL = 'https://datamall2.mytransport.sg/ltaodataservice/BicycleParkingv2'
 DIST = 5  # Distance in kilometers
-LOCATIONS_FILE = ROOT_PATH / 'data' / 'locations.json'
-OUTPUT_FILE = ROOT_PATH / 'data' / 'bicycle_parking_data.ndjson'
+LOCATIONS_FILE = DATA_PATH / 'locations.json'
+OUTPUT_FILE = DATA_PATH / 'bicycle_parking_data.ndjson'
 REQUEST_DELAY_S = 1  # Seconds between requests
 
 
