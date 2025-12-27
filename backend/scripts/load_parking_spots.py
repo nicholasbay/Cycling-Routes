@@ -156,7 +156,7 @@ def insert_batch(conn, batch_data):
     """
     upsert_query = """
         INSERT INTO parking_spots (description, coordinates, rack_type, rack_count, shelter_indicator)
-        VALUES (%s, POINT(%s, %s), %s, %s, %s)
+        VALUES (%s, ST_SetSRID(ST_MakePoint(%s, %s), 4326), %s, %s, %s)
         ON CONFLICT (description) 
         DO UPDATE SET 
             coordinates = EXCLUDED.coordinates,
