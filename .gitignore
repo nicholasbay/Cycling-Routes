@@ -1,6 +1,1 @@
 .DS_Store
-.env
-.venv/
-
-backend/data/bicycle_parking_data.ndjson
-logs/
