@@ -13,8 +13,6 @@ from datetime import datetime
 from pathlib import Path
 
 import psycopg2
-from psycopg2 import sql
-from psycopg2.extras import execute_batch
 from dotenv import load_dotenv
 
 
