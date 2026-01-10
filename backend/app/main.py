@@ -1,9 +1,17 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
+from app.db import initialize_connection_pool, close_connection_pool
 from app.versions.v1 import router as v1_router
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan():
+    initialize_connection_pool()
+    yield
+    close_connection_pool()
 
+app = FastAPI(lifespan=lifespan)
 
 @app.get('/')
 def health_check():
