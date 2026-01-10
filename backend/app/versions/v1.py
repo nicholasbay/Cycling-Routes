@@ -11,7 +11,8 @@ import requests
 
 from app.config import Settings, get_settings
 from app.onemap import ApiKeyManager, get_api_key_manager
-from app.utils.parking import convert_time_interval_to_distance, find_parking_spots_along_route
+from app.utils.parking import find_parking_spots_along_route
+from app.utils.route import transform_route_data
 
 load_dotenv()
 router = APIRouter(
@@ -41,10 +42,15 @@ def search(
             content=results,
             status_code=status.HTTP_200_OK
         )
-    except requests.RequestException as e:
+    except requests.RequestException as e:  # Error with OneMap API request
         return JSONResponse(
             content={'error': str(e)},
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
+    except Exception as e:
+        return JSONResponse(
+            content={'error': str(e)},
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
 
@@ -59,4 +65,41 @@ def get_routes(
     """
     Returns a list of routes with its associated bicycle parking spots.
     """
-    return {"message": "Routes endpoint"}
+    ONEMAP_ALT_ROUTES_KEY = 'alternativeroute'
+
+    try:
+        token = api_dep.get_api_key()
+        response = requests.get(
+            f'{settings_dep.ONEMAP_BASE_URL}/api/public/routingsvc/route?start={start}&end={end}&routeType=cycle',
+            headers={'Authorization': f'Bearer {token}'}
+        )
+        response.raise_for_status()
+        route_data = response.json()
+
+        routes_with_parking = []  # For returning
+
+        # Find parking spots along the main route
+        spots = find_parking_spots_along_route(route_data, interval_mins=intervalMins)
+        routes_with_parking.append(transform_route_data(route_data, spots))
+
+        # Handle any alternative routes
+        alt_routes = route_data.get(ONEMAP_ALT_ROUTES_KEY, [])
+        for alt_route in alt_routes:
+            alt_spots = find_parking_spots_along_route(alt_route, interval_mins=intervalMins)
+            routes_with_parking.append(transform_route_data(alt_route, alt_spots))
+
+        return JSONResponse(
+            content=routes_with_parking,
+            status_code=status.HTTP_200_OK
+        )
+    except requests.RequestException as e:  # Error with OneMap API request
+        return JSONResponse(
+            content={'error': str(e)},
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
+    except Exception as e:
+        import traceback
+        return JSONResponse(
+            content={'error': str(e), 'trace': traceback.format_exc()},
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
