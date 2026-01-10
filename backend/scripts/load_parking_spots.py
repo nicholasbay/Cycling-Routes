@@ -12,7 +12,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-import psycopg2
+import psycopg
 from dotenv import load_dotenv
 
 
@@ -44,16 +44,16 @@ def get_db_connection():
         Connection object or None on failure
     """
     try:
-        conn = psycopg2.connect(
+        conn = psycopg.connect(
             host=os.getenv('POSTGRES_HOST'),
             port=os.getenv('POSTGRES_PORT', '5432'),
-            database=os.getenv('POSTGRES_DATABASE'),
+            dbname=os.getenv('POSTGRES_DATABASE'),
             user=os.getenv('POSTGRES_USER'),
             password=os.getenv('POSTGRES_PASSWORD')
         )
         logging.info("Successfully connected to PostgreSQL database")
         return conn
-    except psycopg2.Error as e:
+    except psycopg.Error as e:
         logging.error(f"Failed to connect to database: {e}")
         return None
 
@@ -86,7 +86,7 @@ def verify_table_exists(conn):
             logging.error(f"Table '{TABLE_NAME}' does not exist")
         
         return exists
-    except psycopg2.Error as e:
+    except psycopg.Error as e:
         logging.error(f"Error verifying table existence: {e}")
         return False
 
@@ -170,7 +170,7 @@ def insert_batch(conn, batch_data):
         rows_affected = cursor.rowcount
         cursor.close()
         return rows_affected
-    except psycopg2.Error as e:
+    except psycopg.Error as e:
         logging.error(f"Database error during batch insert: {e}")
         conn.rollback()
         return None
