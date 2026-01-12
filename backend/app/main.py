@@ -6,7 +6,7 @@ from app.db import initialize_connection_pool, close_connection_pool
 from app.versions.v1 import router as v1_router
 
 @asynccontextmanager
-async def lifespan():
+async def lifespan(app: FastAPI):
     initialize_connection_pool()
     yield
     close_connection_pool()
