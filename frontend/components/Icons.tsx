@@ -9,16 +9,16 @@ export const UserPositionIcon = L.icon({
 
 export const StartPointIcon = L.icon({
   iconUrl: '/icons/location-blue.png',
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32]
+  iconSize: [48, 48],
+  iconAnchor: [24, 48],
+  popupAnchor: [0, -48]
 })
 
 export const EndPointIcon = L.icon({
   iconUrl: '/icons/location-red.png',
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32]
+  iconSize: [48, 48],
+  iconAnchor: [24, 48],
+  popupAnchor: [0, -48]
 })
 
 export const ParkingIcon = L.icon({
