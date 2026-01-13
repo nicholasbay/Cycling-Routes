@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.db import initialize_connection_pool, close_connection_pool
 from app.versions.v1 import router as v1_router
@@ -12,6 +13,14 @@ async def lifespan(app: FastAPI):
     close_connection_pool()
 
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 @app.get('/')
 def health_check():
