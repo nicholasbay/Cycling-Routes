@@ -1,13 +1,22 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Loading } from '@/components/Loading';
+import { InputPanel } from '@/components/InputPanel';
 import { useUserPosition } from '@/hooks/useUserPosition';
+import { Location } from '@/types';
+import { fetchRoute } from '@/services';
+
+const DEFAULT_INTERVAL_MINS = 30;
 
 export default function Home() {
   const { position } = useUserPosition();
+  const [start, setStart] = useState<Location | null>(null);
+  const [end, setEnd] = useState<Location | null>(null);
+  const [intervalMins, setIntervalMins] = useState<number>(DEFAULT_INTERVAL_MINS);
+  const [isLoadingRoute, setIsLoadingRoute] = useState<boolean>(false);
 
   const Map = useMemo(() => dynamic(
     () => import('@/components/Map'),
@@ -21,9 +30,32 @@ export default function Home() {
     }
   ), []);
 
+  const handleSubmit = async () => {
+    if (!start || !end) return;
+
+    setIsLoadingRoute(true)
+    try {
+      const routeResult = await fetchRoute(start, end, intervalMins);
+      console.log('Fetched route:', routeResult);
+    } catch (error) {
+      console.error('Error fetching route:', error);
+    } finally {
+      setIsLoadingRoute(false);
+    };
+  };
+
   return (
-    <div className='flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
-      <div className='w-screen h-screen'>
+    <div className='flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
+      <div className='h-screen w-screen relative'>
+        <InputPanel
+          onStartSelect={(location) => setStart(location)}
+          onEndSelect={(location) => setEnd(location)}
+          onIntervalChange={(value) => setIntervalMins(value)}
+          onSubmit={handleSubmit}
+          startPoint={start}
+          endPoint={end}
+          intervalMins={intervalMins}
+        />
         <Map userPosition={position} />
       </div>
     </div>
