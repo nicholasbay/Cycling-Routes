@@ -4,8 +4,7 @@ export const fetchSearchResults = async (query: string): Promise<SearchResult[]>
   if (!query.trim()) return [];
 
   try {
-    const response = await fetch(
-      `http://localhost:8000/api/v1/search?searchVal=${encodeURIComponent(query)}`
+    const response = await fetch(`/api/v1/search?searchVal=${encodeURIComponent(query)}`
     );
     return await response.json() || [];
   } catch (error) {
@@ -22,9 +21,7 @@ export const fetchRoute = async (start: Location, end: Location, intervalMins: n
   try {
     const startParam = encodeURIComponent(`${start.lat},${start.lon}`);
     const endParam = encodeURIComponent(`${end.lat},${end.lon}`);
-    const response = await fetch(
-      `http://localhost:8000/api/v1/routes?start=${startParam}&end=${endParam}&intervalMins=${intervalMins}`
-    );
+    const response = await fetch(`/api/v1/routes?start=${startParam}&end=${endParam}&intervalMins=${intervalMins}`);
     return await response.json();
   }
   catch (error) {
