@@ -198,6 +198,26 @@ function IntervalInput({ value, onChange }: IntervalInputProps) {
   );
 }
 
+interface InputRowProps {
+  children: React.ReactNode;
+  button?: React.ReactNode;
+}
+
+function InputRow({ children, button }: InputRowProps) {
+  return (
+    <div className='flex items-center gap-2'>
+      <div className='flex-1 min-w-0'>
+        {children}
+      </div>
+      {button && (
+        <div className='shrink-0'>
+          {button}
+        </div>
+      )}
+    </div>
+  );
+}
+
 interface InputPanelProps {
   onStartSelect: (location: Location) => void;
   onEndSelect: (location: Location) => void;
@@ -217,41 +237,44 @@ export function InputPanel({ onStartSelect, onEndSelect, onIntervalChange, onSub
   const isFormValid = startPoint && endPoint && intervalMins > 0;
 
   return (
-    <div className='p-4 space-y-4 bg-white rounded-lg shadow-lg'>
-      <div className='flex items-center gap-2'>
-        <div className='w-80'>
-          <SearchBox onSelect={onStartSelect} placeholder="Search for start location..." iconColor='blue' value={startPoint?.address} />
-        </div>
-        <Button
-          className='hover:bg-zinc-100'
-          variant='outline'
-          size='icon'
-          onClick={handleSwap}
-          title="Swap Start and End Locations"
-        >
-          <ArrowDownUp className='h-6 w-6' />
-        </Button>
-      </div>
+    <div className='p-3 md:p-4 space-y-3 md:space-y-4 bg-white rounded-lg shadow-lg'>
+      <InputRow
+        button={
+          <Button
+            className='hover:bg-zinc-100'
+            variant='outline'
+            size='icon'
+            onClick={handleSwap}
+            title="Swap"
+          >
+            <ArrowDownUp className='h-4 w-4 md:h-6 md:w-6' />
+          </Button>
+        }
+      >
+        <SearchBox onSelect={onStartSelect} placeholder="Start location..." iconColor='blue' value={startPoint?.address} />
+      </InputRow>
 
-      <div className='w-80'>
-        <SearchBox onSelect={onEndSelect} placeholder="Search for end location..." iconColor='red' value={endPoint?.address} />
-      </div>
+      {/* Spacer button for alignment */}
+      <InputRow button={<Button className='invisible pointer-events-none' disabled size='icon' />}>
+        <SearchBox onSelect={onEndSelect} placeholder="End location..." iconColor='red' value={endPoint?.address} />
+      </InputRow>
 
-      <div className='flex items-center gap-2'>
-        <div className='w-80'>
-          <IntervalInput value={intervalMins} onChange={onIntervalChange} />
-        </div>
-        <Button
-          className='hover:bg-zinc-100'
-          variant='outline'
-          size='icon'
-          onClick={onSubmit}
-          disabled={!isFormValid}
-          title="Fetch Route"
-        >
-          <ArrowRight className='h-4 w-4' />
-        </Button>
-      </div>
+      <InputRow
+        button={
+          <Button
+            className='hover:bg-zinc-100'
+            variant='outline'
+            size='icon'
+            onClick={onSubmit}
+            disabled={!isFormValid}
+            title="Find Routes"
+          >
+            <ArrowRight className='h-4 w-4' />
+          </Button>
+        }
+      >
+        <IntervalInput value={intervalMins} onChange={onIntervalChange} />
+      </InputRow>
     </div>
   );
 }

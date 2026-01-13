@@ -18,7 +18,7 @@ function RouteItem({ route, isSelected, onSelect }: RouteItemProps) {
 
   return (
     <div 
-      className={`w-91 gap-2 p-2 rounded cursor-pointer transition-colors border ${
+      className={`max-w-91 gap-2 p-2 rounded cursor-pointer transition-colors border ${
         isSelected 
           ? 'bg-blue-50 border-blue-200'
           : 'hover:bg-zinc-50 border-zinc-200'
@@ -86,25 +86,21 @@ export function RoutesPanel({ routes }: RoutesPanelProps) {
   };
 
   return (
-    <>
-      {routes && routes.length > 0 && (
-        <div className='p-4 space-y-1 bg-white rounded-lg shadow-lg w-99'>
-          <h2
-            className='text-md font-semibold mb-2 line-clamp-1'
-            title={`${routes[0].route_summary.start_point} to ${routes[0].route_summary.end_point}`}
-          >
-            {routes[0].route_summary.start_point} to {routes[0].route_summary.end_point}
-          </h2>
-          {routes.map((route, index) => (
-            <RouteItem
-              key={index}
-              route={route}
-              isSelected={currentRoute === route}
-              onSelect={() => handleRouteClick(route)}
-            />
-          ))}
-        </div>
-      )}
-    </>
+    <div className='p-3 md:p-4 space-y-1 bg-white rounded-lg shadow-lg w-full'>
+      <h2
+        className='text-sm md:text-md font-semibold mb-2 line-clamp-1'
+        title={`${routes[0].route_summary.start_point} to ${routes[0].route_summary.end_point}`}
+      >
+        {routes[0].route_summary.start_point} to {routes[0].route_summary.end_point}
+      </h2>
+      {routes.map((route, index) => (
+        <RouteItem
+          key={index}
+          route={route}
+          isSelected={currentRoute === route}
+          onSelect={() => handleRouteClick(route)}
+        />
+      ))}
+    </div>
   );
 }
