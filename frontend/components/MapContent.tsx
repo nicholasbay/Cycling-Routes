@@ -32,12 +32,19 @@ export function MapContent({ userPosition }: MapContentProps) {
       )}
 
       {/* TODO: Routes, start/end points, parking markers */}
+      {/* Placeholder */}
+      <Polyline positions={latlngs} color='red' weight={8}/>
+
       <Marker position={latlngs[0]} icon={StartPointIcon}>
         <Popup>Start Point</Popup>
       </Marker>
-      <Polyline positions={latlngs} color='red' weight={8}/>
+
       <Marker position={latlngs[latlngs.length - 1]} icon={EndPointIcon}>
         <Popup>End Point</Popup>
+      </Marker>
+
+      <Marker position={latlngs[Math.floor(latlngs.length / 2)]} icon={ParkingIcon}>
+        <Popup>Bike Parking</Popup>
       </Marker>
     </>
   );
