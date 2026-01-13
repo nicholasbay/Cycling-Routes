@@ -33,7 +33,7 @@ export interface ParkingSpot {
   };
   rack_type: string;
   rack_count: number;
-  shelter_indicator: boolean;
+  shelter_indicator: string;
   deviation_m?: number;
 }
 
@@ -41,4 +41,16 @@ export interface Location {
   lat: number;
   lon: number;
   address: string;
+}
+
+export interface RoutesContextType {
+  routes: RouteResult[];
+  currentRoute: RouteResult | null;
+  loading: boolean;
+  error: string | null;
+  setRoutes: (routes: RouteResult[]) => void;
+  setCurrentRoute: (route: RouteResult | null) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  clearRoutes: () => void;
 }

@@ -14,7 +14,7 @@ export const fetchSearchResults = async (query: string): Promise<SearchResult[]>
   }
 };
 
-export const fetchRoute = async (start: Location, end: Location, intervalMins: number): Promise<RouteResult> => {
+export const fetchRoute = async (start: Location, end: Location, intervalMins: number): Promise<RouteResult[]> => {
   if (!start || !end) {
     throw new Error('Start and end locations must be provided');
   }
