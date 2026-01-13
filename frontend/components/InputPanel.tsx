@@ -84,7 +84,7 @@ function SearchBox({ onSelect, placeholder, iconColor, value }: SearchBoxProps) 
       </div>
 
       {isFocused && (
-        <div className='absolute top-full left-0 right-0 mt-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow-md z-50'>
+        <div className='absolute top-full left-10 right-0 mt-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow-md z-50'>
           <ul className='max-h-60 overflow-y-auto'>
             {/* Use current location, if available */}
             {userPosition && (
