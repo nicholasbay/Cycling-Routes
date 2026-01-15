@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { Marker, Polyline, Popup, useMap } from 'react-leaflet';
 
+import { decodePolyline } from '@/utils';
 import { DEFAULT_ZOOM } from '@/constants';
 import { useRoutes } from '@/contexts/RoutesContext';
-import { decodePolyline } from '@/utils';
 
 import { StartPointIcon, EndPointIcon, ParkingIcon, UserPositionIcon } from './Icons';
 
@@ -15,11 +15,20 @@ export function MapContent({ userPosition }: MapContentProps) {
   const map = useMap();
   const { currentRoute } = useRoutes();
 
+  // Center map on user position when it becomes available
   useEffect(() => {
     if (userPosition) {
       map.flyTo(userPosition, DEFAULT_ZOOM, { duration: 1.5 });
     }
   }, [userPosition, map]);
+
+  // Center map on route start when currentRoute changes
+  useEffect(() => {
+    if (currentRoute) {
+      const startCoord = decodePolyline(currentRoute.route_geometry)[0];
+      map.flyTo(startCoord, DEFAULT_ZOOM, { duration: 1.5 });
+    }
+  }, [currentRoute, map]);
 
   const routeCoords: [number, number][] = decodePolyline(currentRoute?.route_geometry || '');
 

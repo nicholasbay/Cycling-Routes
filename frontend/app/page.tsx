@@ -27,11 +27,13 @@ export default function Home() {
   const Map = useMemo(() => dynamic(
     () => import('@/components/Map'),
     { 
-      loading: () => <Loading
-        className="flex flex-row items-center justify-center h-screen gap-4"
-        message="Loading map..."
-        iconSize={48}
-      />,
+      loading: () => (
+        <Loading
+          className="flex flex-row items-center justify-center h-screen gap-4"
+          message="Loading map..."
+          iconSize={48}
+        />
+      ),
       ssr: false
     }
   ), []);
@@ -56,7 +58,7 @@ export default function Home() {
 
   return (
     <div className='flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
-      <div className='h-screen w-screen relative'>
+      <div className='h-screen w-screen relative overflow-hidden'>
         {/* Desktop: Left sidebar */}
         <div className='hidden md:block absolute top-4 left-4 z-1000'>
           <div className='flex gap-2 items-start'>
@@ -71,11 +73,11 @@ export default function Home() {
 
             <div
               className={`
-                overflow-y-visible transition-all duration-500 ease-in-out
-                ${isPanelVisible ? 'w-80 opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-50'}
+                overflow-visible transition-all duration-500 ease-in-out
+                ${isPanelVisible ? 'w-[50vw] opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-50 pointer-events-none'}
               `}
             >
-              <div className='space-y-2 max-h-[calc(100vh-2rem)] overflow-y-visible'>
+              <div className={`space-y-2 max-h-[calc(100vh-2rem)] ${routes.length > 0 && 'overflow-y-auto'}`}>
                 <InputPanel
                   onStartSelect={(location) => setStart(location)}
                   onEndSelect={(location) => setEnd(location)}
@@ -93,7 +95,7 @@ export default function Home() {
 
         {/* Mobile: Top drawer */}
         <div className='md:hidden absolute top-0 left-0 right-0 z-1000'>
-          <div className='flex flex-col'>
+          <div className='flex flex-col gap-2'>
             <Button
               className='bg-white hover:bg-zinc-100 shadow-lg rounded-b-lg rounded-t-none w-full'
               variant='outline'
@@ -104,23 +106,21 @@ export default function Home() {
 
             <div
               className={`
-                overflow-y-visible transition-all duration-500 ease-in-out
-                ${isPanelVisible ? 'max-h-[80vh] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-50'}
+                overflow-visible transition-all duration-500 ease-in-out
+                ${isPanelVisible ? 'max-h-[80vh] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-50 pointer-events-none'}
               `}
             >
-              <div className='overflow-y-visible'>
-                <div className='p-2 space-y-2'>
-                  <InputPanel
-                    onStartSelect={(location) => setStart(location)}
-                    onEndSelect={(location) => setEnd(location)}
-                    onIntervalChange={(value) => setIntervalMins(value)}
-                    onSubmit={handleSubmit}
-                    startPoint={start}
-                    endPoint={end}
-                    intervalMins={intervalMins}
-                  />
-                  <RoutesPanel routes={routes} />
-                </div>
+              <div className={`px-2 space-y-2 max-h-[80vh] ${routes.length > 0 && 'overflow-y-auto'}`}>
+                <InputPanel
+                  onStartSelect={(location) => setStart(location)}
+                  onEndSelect={(location) => setEnd(location)}
+                  onIntervalChange={(value) => setIntervalMins(value)}
+                  onSubmit={handleSubmit}
+                  startPoint={start}
+                  endPoint={end}
+                  intervalMins={intervalMins}
+                />
+                <RoutesPanel routes={routes} />
               </div>
             </div>
           </div>

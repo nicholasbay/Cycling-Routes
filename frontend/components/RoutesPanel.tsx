@@ -18,20 +18,20 @@ function RouteItem({ route, isSelected, onSelect }: RouteItemProps) {
 
   return (
     <div 
-      className={`max-w-91 gap-2 p-2 rounded cursor-pointer transition-colors border ${
-        isSelected 
+      className={`max-w-full gap-2 p-2 rounded cursor-pointer transition-colors border ${
+        isSelected
           ? 'bg-blue-50 border-blue-200'
-          : 'hover:bg-zinc-50 border-zinc-200'
+          : 'hover:bg-zinc-100 border-zinc-200'
       }`}
       onClick={onSelect}
       title={`${isSelected ? 'Deselect' : 'Select'} route`}
     >
       <div className='flex flex-row items-center justify-between'>
-        <Bike 
-          size={32} 
+        <Bike
+          size={32}
           className={isSelected ? 'text-blue-600' : 'text-zinc-600'}
         />
-      
+
         <div>
           <p className={`text-sm text-right font-semibold ${isSelected ? 'text-blue-600' : ''}`}>
             {Math.round(route.route_summary.total_time_s / 60)} min
@@ -42,7 +42,7 @@ function RouteItem({ route, isSelected, onSelect }: RouteItemProps) {
         </div>
       </div>
 
-      <Button 
+      <Button
         variant='link'
         className='px-0'
         onClick={(e) => {
@@ -52,7 +52,7 @@ function RouteItem({ route, isSelected, onSelect }: RouteItemProps) {
       >
         {`${showDetails ? 'Hide' : 'Show'} Route Details`}
       </Button>
-      
+
       {showDetails && (
         <div className='mt-2 p-2 max-h-30 overflow-y-auto bg-zinc-50 rounded-md'>
           <ol className='list-decimal list-inside space-y-2 text-sm'>

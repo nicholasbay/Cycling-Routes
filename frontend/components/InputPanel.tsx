@@ -1,13 +1,14 @@
 'use client';
 
-import { ArrowDownUp, ArrowRight, ChevronLeft, ChevronRight, ClockFading } from 'lucide-react';
+import { ArrowDownUp, ArrowRight, ClockFading, LoaderCircle } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useUserPosition } from '@/hooks/useUserPosition';
 import { Location } from '@/types';
 import { fetchSearchResults } from '@/services';
+import { useRoutes } from '@/contexts/RoutesContext';
+import { useUserPosition } from '@/hooks/useUserPosition';
 
 import { Loading } from './Loading';
 
@@ -20,10 +21,10 @@ interface SearchBoxProps {
 
 function SearchBox({ onSelect, placeholder, iconColor, value }: SearchBoxProps) {
   const { position: userPosition } = useUserPosition();
-  
+
   const [query, setQuery] = useState<string>('');
   const [results, setResults] = useState<Location[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingSearch, setLoadingSearch] = useState<boolean>(false);
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
   useEffect(() => {
@@ -71,21 +72,21 @@ function SearchBox({ onSelect, placeholder, iconColor, value }: SearchBoxProps) 
 
             if (!value.trim()) {
               setResults([]);
-              setLoading(false);
+              setLoadingSearch(false);
               return;
             }
 
-            setLoading(true);
+            setLoadingSearch(true);
             const results = await searchLocation(value);
             setResults(results);
-            setLoading(false);
+            setLoadingSearch(false);
           }}
         />
       </div>
 
       {isFocused && (
-        <div className='absolute top-full left-0 right-0 mt-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow-md z-50'>
-          <ul className='max-h-60 overflow-y-auto'>
+        <div className='absolute top-full left-10 right-0 mt-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md shadow-md z-50'>
+          <ul className='max-h-[50vh] overflow-y-auto'>
             {/* Use current location, if available */}
             {userPosition && (
               <li
@@ -97,14 +98,14 @@ function SearchBox({ onSelect, placeholder, iconColor, value }: SearchBoxProps) 
             )}
 
             {/* Loading indicator */}
-            {loading && (
+            {loadingSearch && (
               <li className='p-2 text-sm text-zinc-500'>
                 <Loading className='flex flex-row items-center justify-center gap-2' message='Searching...' iconSize={20} />
               </li>
             )}
 
             {/* Search results */}
-            {!loading && query.length > 0 && results.length > 0 && (
+            {!loadingSearch && query.length > 0 && results.length > 0 && (
               results.map((result, index) => (
                 <li
                   key={index}
@@ -122,14 +123,14 @@ function SearchBox({ onSelect, placeholder, iconColor, value }: SearchBoxProps) 
             )}
 
             {/* Prompt to enter query */}
-            {!loading && query.length === 0 && (
+            {!loadingSearch && query.length === 0 && (
               <li className='p-2 text-sm text-zinc-500 text-center'>
                 Enter a query to search
               </li>
             )}
 
             {/* No results message */}
-            {!loading && query.length > 0 && results.length === 0 && (
+            {!loadingSearch && query.length > 0 && results.length === 0 && (
               <li className='p-2 text-sm text-zinc-500 text-center'>
                 No results found
               </li>
@@ -155,7 +156,7 @@ function IntervalInput({ value, onChange }: IntervalInputProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    
+
     // Allow empty input for easier editing
     if (val === '') {
       setInputValue('');
@@ -228,7 +229,15 @@ interface InputPanelProps {
   intervalMins: number;
 }
 
-export function InputPanel({ onStartSelect, onEndSelect, onIntervalChange, onSubmit, startPoint, endPoint, intervalMins }: InputPanelProps) {
+export function InputPanel({
+  onStartSelect,
+  onEndSelect,
+  onIntervalChange,
+  onSubmit,
+  startPoint,
+  endPoint,
+  intervalMins }: InputPanelProps) {
+  const { loading: loadingRoutes } = useRoutes();
   const handleSwap = () => {
     if (startPoint) onEndSelect(startPoint);
     if (endPoint) onStartSelect(endPoint);
@@ -266,10 +275,10 @@ export function InputPanel({ onStartSelect, onEndSelect, onIntervalChange, onSub
             variant='outline'
             size='icon'
             onClick={onSubmit}
-            disabled={!isFormValid}
+            disabled={!isFormValid || loadingRoutes}
             title="Find Routes"
           >
-            <ArrowRight className='h-4 w-4' />
+            {loadingRoutes ? <LoaderCircle className='h-4 w-4 animate-spin' /> : <ArrowRight className='h-4 w-4' />}
           </Button>
         }
       >
