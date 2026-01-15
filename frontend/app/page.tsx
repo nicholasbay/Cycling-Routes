@@ -110,7 +110,7 @@ export default function Home() {
                 ${isPanelVisible ? 'max-h-[80vh] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-50 pointer-events-none'}
               `}
             >
-              <div className={`space-y-2 max-h-[80vh] ${routes.length > 0 && 'overflow-y-auto'}`}>
+              <div className={`px-2 space-y-2 max-h-[80vh] ${routes.length > 0 && 'overflow-y-auto'}`}>
                 <InputPanel
                   onStartSelect={(location) => setStart(location)}
                   onEndSelect={(location) => setEnd(location)}
