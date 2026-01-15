@@ -1,7 +1,9 @@
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogOverlay,
   DialogTitle
@@ -20,7 +22,10 @@ export function InfoDialog({isOpen, setIsOpen}: InfoDialogProps) {
 
       <DialogContent className='z-1000'>
         <DialogHeader>
-          <DialogTitle>PitStop</DialogTitle>
+          <DialogTitle className='flex items-center'>
+            <img src='/icons/distance.png' alt='App Icon' className='w-8 h-8 mr-2' />
+            PitStop
+          </DialogTitle>
           <DialogDescription>
             Plan cycling routes that stay within bike-sharing time limits.
           </DialogDescription>
@@ -28,7 +33,7 @@ export function InfoDialog({isOpen, setIsOpen}: InfoDialogProps) {
 
         <div className='max-h-[50dvh] overflow-y-auto space-y-2'>
           <h2 className='text-lg font-semibold'>How to Use</h2>
-          <ol className='list-decimal list-inside space-y-1'>
+          <ol className='list-decimal list-inside space-y-1 pb-1'>
             <li>Enter a start location in the "Start Location" field.</li>
             <li>Enter an end location in the "End Location" field.</li>
             <li>Specify the desired interval (in minutes) between parking spots.</li>
@@ -36,13 +41,56 @@ export function InfoDialog({isOpen, setIsOpen}: InfoDialogProps) {
           </ol>
 
           <h2 className='text-lg font-semibold'>Icons</h2>
+          <ul className='list-none list-inside space-y-1 pb-1'>
+            <li className='flex items-center'>
+              <img src='/icons/location-blue.png' alt="Start Location" className='w-8 h-8 inline-block mr-2'/>
+              Start Location
+            </li>
+            <li className='flex items-center'>
+              <img src='/icons/location-red.png' alt="End Location" className='w-8 h-8 inline-block mr-2'/>
+              End Location
+            </li>
+            <li className='flex items-center'>
+              <img src='/icons/bike-parking.png' alt="Parking Spot" className='w-8 h-8 inline-block mr-2'/>
+              Parking Spot
+            </li>
+            <li className='flex items-center'>
+              <img src='/icons/position.png' alt="Current Location" className='w-8 h-8 inline-block mr-2'/>
+              Current Location
+            </li>
+          </ul>
+
+          <h2 className='text-lg font-semibold'>Acknowledgments</h2>
           <ul className='list-none list-inside space-y-1'>
-            <li><img src='/icons/location-blue.png' alt="Start Location" className='w-8 h-8 inline-block mr-2'/>Start Location</li>
-            <li><img src='/icons/location-red.png' alt="End Location" className='w-8 h-8 inline-block mr-2'/>End Location</li>
-            <li><img src='/icons/bike-parking.png' alt="Parking Spot" className='w-8 h-8 inline-block mr-2'/>Parking Spot</li>
-            <li><img src='/icons/position.png' alt="Current Location" className='w-8 h-8 inline-block mr-2'/>Current Location</li>
+            <li>
+              Map tiles, location search, and routing data provided by <a href='https://www.onemap.gov.sg/apidocs/' className='text-blue-600 underline' target='_blank' rel='noopener noreferrer'>OneMap API</a>.
+            </li>
+            <li>
+              Parking spot data provided by <a href='https://datamall.lta.gov.sg/content/datamall/en.html' className='text-blue-600 underline' target='_blank' rel='noopener noreferrer'>LTA DataMall</a>.
+            </li>
+            <li>
+              All icons provided by <a href='https://www.flaticon.com/' className='text-blue-600 underline' target='_blank' rel='noopener noreferrer'>Flaticon</a> and <a href='https://lucide.dev' className='text-blue-600 underline' target='_blank' rel='noopener noreferrer'>Lucide</a>.
+            </li>
           </ul>
         </div>
+
+        <DialogFooter className='sm:justify-center'>
+          <Button
+            className='flex items-center gap-2'
+            variant='ghost'
+            asChild
+          >
+            <a 
+              href='https://github.com/nicholasbay/PitStop'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='flex items-center gap-2'
+            >
+              <img src='/icons/github.png' alt='GitHub Icon' className='w-5 h-5' />
+              View on GitHub
+            </a>
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
