@@ -15,6 +15,7 @@ interface RouteItemProps {
 
 function RouteItem({ route, isSelected, onSelect }: RouteItemProps) {
   const [showDetails, setShowDetails] = useState<boolean>(false);
+  const [showSpots, setShowSpots] = useState<boolean>(false);
 
   return (
     <div 
@@ -42,26 +43,47 @@ function RouteItem({ route, isSelected, onSelect }: RouteItemProps) {
         </div>
       </div>
 
-      <Button
-        variant='link'
-        className='px-0'
-        onClick={(e) => {
-          e.stopPropagation(); // Prevent triggering route selection
-          setShowDetails(!showDetails);
-        }}
-      >
-        {`${showDetails ? 'Hide' : 'Show'} Route Details`}
-      </Button>
+      <div className='flex flex-col items-start'>
+        <Button
+          variant='link'
+          className='px-0'
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent triggering route selection
+            setShowDetails(!showDetails);
+          }}
+        >
+          {`${showDetails ? 'Hide' : 'Show'} Route Details`}
+        </Button>
+        {showDetails && (
+          <div className='mt-2 p-2 max-h-30 w-full overflow-y-auto bg-zinc-50 rounded-md'>
+            <ol className='list-decimal list-inside space-y-2 text-sm'>
+              {route.route_instructions.map((instruction, idx) => (
+                <li key={idx}>{instruction}</li>
+              ))}
+            </ol>
+          </div>
+        )}
 
-      {showDetails && (
-        <div className='mt-2 p-2 max-h-30 overflow-y-auto bg-zinc-50 rounded-md'>
-          <ol className='list-decimal list-inside space-y-2 text-sm'>
-            {route.route_instructions.map((instruction, idx) => (
-              <li key={idx}>{instruction}</li>
-            ))}
-          </ol>
-        </div>
-      )}
+        <Button
+          variant='link'
+          className='px-0'
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent triggering route selection
+            setShowSpots(!showSpots);
+          }}
+        >
+          {`${showSpots ? 'Hide' : 'Show'} Parking Spots (${route.parking_spots.length})`}
+        </Button>
+        {showSpots && (
+          <div className='mt-2 p-2 max-h-30 w-full overflow-y-auto bg-zinc-50 rounded-md'>
+            <ol className='list-decimal list-inside space-y-2 text-sm'>
+              {route.parking_spots.map((spot, idx) => (
+                <li key={idx}>{spot.description}</li>
+              ))}
+            </ol>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
