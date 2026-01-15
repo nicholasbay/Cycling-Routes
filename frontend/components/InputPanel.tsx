@@ -260,12 +260,12 @@ export function InputPanel({
           </Button>
         }
       >
-        <SearchBox onSelect={onStartSelect} placeholder="Start location..." iconColor='blue' value={startPoint?.address} />
+        <SearchBox onSelect={onStartSelect} placeholder="Start Point" iconColor='blue' value={startPoint?.address} />
       </InputRow>
 
       {/* Spacer button for alignment */}
       <InputRow button={<Button className='invisible pointer-events-none' disabled size='icon' />}>
-        <SearchBox onSelect={onEndSelect} placeholder="End location..." iconColor='red' value={endPoint?.address} />
+        <SearchBox onSelect={onEndSelect} placeholder="End Point" iconColor='red' value={endPoint?.address} />
       </InputRow>
 
       <InputRow
