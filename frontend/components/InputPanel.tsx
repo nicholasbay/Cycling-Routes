@@ -65,7 +65,7 @@ function SearchBox({ onSelect, placeholder, iconColor, value }: SearchBoxProps) 
           placeholder={placeholder}
           value={query}
           onFocus={() => setIsFocused(true)}
-          onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+          onBlur={() => setTimeout(() => setIsFocused(false), 1000)}
           onChange={async (e) => {
             const value = e.target.value;
             setQuery(value);
