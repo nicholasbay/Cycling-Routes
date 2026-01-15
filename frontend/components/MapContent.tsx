@@ -77,15 +77,28 @@ export function MapContent({ userPosition }: MapContentProps) {
           icon={ParkingIcon}
         >
           <Popup>
-            <div>
-              <h3 className='font-semibold'>Bike Parking</h3>
-              <p>{spot.description}</p>
-              <p>Rack Type: {spot.rack_type}</p>
-              <p>Rack Count: {spot.rack_count}</p>
-              <p>Shelter: {spot.shelter_indicator}</p>
-              {spot.deviation_m && (
-                <p>Deviation: {spot.deviation_m} m</p>
-              )}
+            <div className='space-y-2'>
+              <h3 className='font-semibold text-base'>{spot.description}</h3>
+              <div className='space-y-1 text-sm'>
+                <div className='flex items-center gap-2'>
+                  <span className='text-zinc-500'>Racks:</span>
+                  <span>{spot.rack_count}</span>
+                </div>
+                <div className='flex items-center gap-2'>
+                  <span className='text-zinc-500'>Type:</span>
+                  <span>{spot.rack_type.replace(/_/g, ' ')}</span>
+                </div>
+                <div className='flex items-center gap-2'>
+                  <span className='text-zinc-500'>Shelter:</span>
+                  <span>{spot.shelter_indicator === 'Y' ? 'Yes' : 'No'}</span>
+                </div>
+                {spot.deviation_m && (
+                  <div className='flex items-center gap-2'>
+                    <span className='text-zinc-500'>Distance:</span>
+                    <span>{Math.round(spot.deviation_m)}m from route</span>
+                  </div>
+                )}
+              </div>
             </div>
           </Popup>
         </Marker>
