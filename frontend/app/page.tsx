@@ -27,11 +27,13 @@ export default function Home() {
   const Map = useMemo(() => dynamic(
     () => import('@/components/Map'),
     { 
-      loading: () => <Loading
-        className="flex flex-row items-center justify-center h-screen gap-4"
-        message="Loading map..."
-        iconSize={48}
-      />,
+      loading: () => (
+        <Loading
+          className="flex flex-row items-center justify-center h-screen gap-4"
+          message="Loading map..."
+          iconSize={48}
+        />
+      ),
       ssr: false
     }
   ), []);
@@ -56,7 +58,7 @@ export default function Home() {
 
   return (
     <div className='flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
-      <div className='h-screen w-screen relative'>
+      <div className='h-screen w-screen relative overflow-hidden'>
         {/* Desktop: Left sidebar */}
         <div className='hidden md:block absolute top-4 left-4 z-1000'>
           <div className='flex gap-2 items-start'>
@@ -71,11 +73,11 @@ export default function Home() {
 
             <div
               className={`
-                overflow-hidden transition-all duration-500 ease-in-out
+                overflow-visible transition-all duration-500 ease-in-out
                 ${isPanelVisible ? 'w-[50vw] opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-50 pointer-events-none'}
               `}
             >
-              <div className='space-y-2 max-h-[calc(100vh-2rem)] overflow-y-auto'>
+              <div className={`space-y-2 max-h-[calc(100vh-2rem)] ${routes.length > 0 && 'overflow-y-auto'}`}>
                 <InputPanel
                   onStartSelect={(location) => setStart(location)}
                   onEndSelect={(location) => setEnd(location)}
@@ -104,11 +106,11 @@ export default function Home() {
 
             <div
               className={`
-                transition-all duration-500 ease-in-out
+                overflow-visible transition-all duration-500 ease-in-out
                 ${isPanelVisible ? 'max-h-[80vh] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-50 pointer-events-none'}
               `}
             >
-              <div className='space-y-2 overflow-y-auto max-h-[80vh]'>
+              <div className={`space-y-2 max-h-[80vh] ${routes.length > 0 && 'overflow-y-auto'}`}>
                 <InputPanel
                   onStartSelect={(location) => setStart(location)}
                   onEndSelect={(location) => setEnd(location)}
