@@ -8,6 +8,8 @@ Dockless bike-sharing services such as Anywheel and HelloRide offer a compelling
 
 Navigating between the designated parking spots every 30 minutes can be a hassle while out on a leisure cycle, and PitStop aims to alleviate that burden. Simply enter the start and end points, together with the preferred time intervals, and it maps out a route with the intermediate parking spots where you can reset the timer at.
 
+![PitStop Example](./assets/pitstop_example.jpg)
+
 ## Frontend
 
 ### Local Development
