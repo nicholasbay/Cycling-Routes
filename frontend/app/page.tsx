@@ -72,7 +72,7 @@ export default function Home() {
             <div
               className={`
                 overflow-y-visible transition-all duration-500 ease-in-out
-                ${isPanelVisible ? 'w-80 opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-50 ponter-events-none'}
+                ${isPanelVisible ? 'w-[50vw] opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-50 pointer-events-none'}
               `}
             >
               <div className='space-y-2 max-h-[calc(100vh-2rem)] overflow-y-visible'>
