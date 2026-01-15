@@ -34,8 +34,8 @@ export function InfoDialog({isOpen, setIsOpen}: InfoDialogProps) {
         <div className='max-h-[50dvh] overflow-y-auto space-y-2'>
           <h2 className='text-lg font-semibold'>How to Use</h2>
           <ol className='list-decimal list-inside space-y-1 pb-1'>
-            <li>Enter a start location in the "Start Location" field.</li>
-            <li>Enter an end location in the "End Location" field.</li>
+            <li>Enter a start point in the "Start Point" field.</li>
+            <li>Enter an end point in the "End Point" field.</li>
             <li>Specify the desired interval (in minutes) between parking spots.</li>
             <li>Click the button to find routes with the intermediate parking spots.</li>
           </ol>
@@ -43,12 +43,12 @@ export function InfoDialog({isOpen, setIsOpen}: InfoDialogProps) {
           <h2 className='text-lg font-semibold'>Icons</h2>
           <ul className='list-none list-inside space-y-1 pb-1'>
             <li className='flex items-center'>
-              <img src='/icons/location-blue.png' alt="Start Location" className='w-8 h-8 inline-block mr-2'/>
-              Start Location
+              <img src='/icons/location-blue.png' alt="Start Point" className='w-8 h-8 inline-block mr-2'/>
+              Start Point
             </li>
             <li className='flex items-center'>
-              <img src='/icons/location-red.png' alt="End Location" className='w-8 h-8 inline-block mr-2'/>
-              End Location
+              <img src='/icons/location-red.png' alt="End Point" className='w-8 h-8 inline-block mr-2'/>
+              End Point
             </li>
             <li className='flex items-center'>
               <img src='/icons/bike-parking.png' alt="Parking Spot" className='w-8 h-8 inline-block mr-2'/>
