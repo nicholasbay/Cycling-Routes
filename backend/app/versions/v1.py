@@ -23,6 +23,7 @@ router = APIRouter(
 ApiDep = Annotated[ApiKeyManager, Depends(get_api_key_manager)]
 SettingsDep = Annotated[Settings, Depends(get_settings)]
 
+
 @router.get('/search')
 def search(
     api_dep: ApiDep,
@@ -88,6 +89,8 @@ def get_routes(
         for alt_route in alt_routes:
             alt_spots = find_parking_spots_along_route(alt_route, interval_mins=intervalMins)
             routes_with_parking.append(transform_route_data(alt_route, alt_spots))
+
+        routes_with_parking.sort(key=lambda x: x['route_summary']['total_time_s'])  # Sort by total time in ascending order
 
         return JSONResponse(
             content=routes_with_parking,

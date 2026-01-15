@@ -3,8 +3,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.config import get_settings
 from app.db import initialize_connection_pool, close_connection_pool
 from app.versions.v1 import router as v1_router
+
+settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -12,7 +15,12 @@ async def lifespan(app: FastAPI):
     yield
     close_connection_pool()
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title=settings.APP_TITLE,
+    description=settings.APP_DESCRIPTION,
+    version=settings.APP_VERSION,
+    lifespan=lifespan
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -24,6 +32,6 @@ app.add_middleware(
 
 @app.get('/')
 def health_check():
-    return {"message": "Cycling routes API is running"}
+    return {"message": f"{settings.APP_TITLE} is running"}
 
 app.include_router(router=v1_router)
