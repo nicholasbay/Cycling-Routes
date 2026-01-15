@@ -18,7 +18,7 @@ function RouteItem({ route, isSelected, onSelect }: RouteItemProps) {
 
   return (
     <div 
-      className={`max-w-91 gap-2 p-2 rounded cursor-pointer transition-colors border ${
+      className={`max-w-full gap-2 p-2 rounded cursor-pointer transition-colors border ${
         isSelected 
           ? 'bg-blue-50 border-blue-200'
           : 'hover:bg-zinc-50 border-zinc-200'
