@@ -1,13 +1,14 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { ChevronLeft, ChevronUp } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { ChevronLeft, ChevronUp, Info as InfoIcon } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Loading } from '@/components/Loading';
 import { InputPanel } from '@/components/InputPanel';
 import { RoutesPanel } from '@/components/RoutesPanel';
+import { InfoDialog } from '@/components/InfoDialog';
 import { useRoutes } from '@/contexts/RoutesContext';
 import { useUserPosition } from '@/hooks/useUserPosition';
 import { Location } from '@/types';
@@ -23,6 +24,14 @@ export default function Home() {
   const [end, setEnd] = useState<Location | null>(null);
   const [intervalMins, setIntervalMins] = useState<number>(DEFAULT_INTERVAL_MINS);
   const [isPanelVisible, setIsPanelVisible] = useState<boolean>(false);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('hasVisited');
+    if (!hasVisited) {
+      setIsDialogOpen(true);
+    }
+  }, []);
 
   const Map = useMemo(() => dynamic(
     () => import('@/components/Map'),
@@ -56,9 +65,14 @@ export default function Home() {
     };
   };
 
+  const handleDialogClose = () => {
+    localStorage.setItem('hasVisited', 'true');
+    setIsDialogOpen(false);
+  };
+
   return (
     <div className='flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
-      <div className='h-screen w-screen relative overflow-hidden'>
+      <div className='h-dvh w-dvw relative overflow-hidden'>
         {/* Desktop: Left sidebar */}
         <div className='hidden md:block absolute top-4 left-4 z-1000'>
           <div className='flex gap-2 items-start'>
@@ -74,10 +88,10 @@ export default function Home() {
             <div
               className={`
                 overflow-visible transition-all duration-500 ease-in-out
-                ${isPanelVisible ? 'w-[50vw] opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-50 pointer-events-none'}
+                ${isPanelVisible ? 'w-[50dvw] opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-50 pointer-events-none'}
               `}
             >
-              <div className={`space-y-2 max-h-[calc(100vh-2rem)] ${routes.length > 0 && 'overflow-y-auto'}`}>
+              <div className={`space-y-2 max-h-[calc(100dvh-2rem)] ${routes.length > 0 && 'overflow-y-auto'}`}>
                 <InputPanel
                   onStartSelect={(location) => setStart(location)}
                   onEndSelect={(location) => setEnd(location)}
@@ -107,10 +121,10 @@ export default function Home() {
             <div
               className={`
                 overflow-visible transition-all duration-500 ease-in-out
-                ${isPanelVisible ? 'max-h-[80vh] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-50 pointer-events-none'}
+                ${isPanelVisible ? 'max-h-[80dvh] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-50 pointer-events-none'}
               `}
             >
-              <div className={`px-2 space-y-2 max-h-[80vh] ${routes.length > 0 && 'overflow-y-auto'}`}>
+              <div className={`px-2 space-y-2 max-h-[80dvh] ${routes.length > 0 && 'overflow-y-auto'}`}>
                 <InputPanel
                   onStartSelect={(location) => setStart(location)}
                   onEndSelect={(location) => setEnd(location)}
@@ -124,6 +138,18 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className='absolute bottom-8 left-4 z-1000'>
+          <Button
+            className='bg-white hover:bg-zinc-100 shadow-lg'
+            variant='outline'
+            size='icon-lg'
+            onClick={() => setIsDialogOpen(true)}
+          >
+            <InfoIcon />
+          </Button>
+          <InfoDialog isOpen={isDialogOpen} setIsOpen={handleDialogClose} />
         </div>
 
         <Map userPosition={position} />

@@ -4,14 +4,11 @@ from typing import List, Dict, Tuple
 import polyline
 import numpy as np
 
+from app.constants import AVG_SPEED_M_PER_MIN, DEFAULT_SEARCH_RADIUS_M, EXPANDED_SEARCH_RADIUS_M
 from app.db import execute_query
 
-DEFAULT_INTERVAL_MINS = 30
-DEFAULT_SEARCH_RADIUS_M = 500
-EXPANDED_SEARCH_RADIUS_M = 1000
 
-
-def find_parking_spots_along_route(route, interval_mins: int = DEFAULT_INTERVAL_MINS) -> List[Dict]:
+def find_parking_spots_along_route(route, interval_mins: int) -> List[Dict]:
     """
     Find bicycle parking spots along a given route within the specified interval distance.
 
@@ -64,7 +61,7 @@ def find_parking_spots_along_route(route, interval_mins: int = DEFAULT_INTERVAL_
 def _convert_time_interval_to_distance(interval_mins: int = 30) -> int:
     """
     Convert time interval in minutes to distance in meters.
-    Assumes average cycling speed of 15 km/h (250 m/min).
+    Assumes average cycling speed of 10 km/h (167 m/min).
     
     Args:
         interval_mins (int): Time interval in minutes.
@@ -77,7 +74,6 @@ def _convert_time_interval_to_distance(interval_mins: int = 30) -> int:
     elif interval_mins <= 0:
         raise ValueError("Interval must be a positive integer.")
 
-    AVG_SPEED_M_PER_MIN = 250
     return interval_mins * AVG_SPEED_M_PER_MIN
 
 
