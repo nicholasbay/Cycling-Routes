@@ -1,13 +1,14 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { ChevronLeft, ChevronUp } from 'lucide-react';
+import { ChevronLeft, ChevronUp, Info as InfoIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Loading } from '@/components/Loading';
 import { InputPanel } from '@/components/InputPanel';
 import { RoutesPanel } from '@/components/RoutesPanel';
+import { InfoDialog } from '@/components/InfoDialog';
 import { useRoutes } from '@/contexts/RoutesContext';
 import { useUserPosition } from '@/hooks/useUserPosition';
 import { Location } from '@/types';
@@ -23,6 +24,7 @@ export default function Home() {
   const [end, setEnd] = useState<Location | null>(null);
   const [intervalMins, setIntervalMins] = useState<number>(DEFAULT_INTERVAL_MINS);
   const [isPanelVisible, setIsPanelVisible] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
   const Map = useMemo(() => dynamic(
     () => import('@/components/Map'),
@@ -124,6 +126,20 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className='absolute bottom-8 left-4 z-1000'>
+          <Button
+            className='bg-white hover:bg-zinc-100 shadow-lg'
+            variant='outline'
+            size='icon-lg'
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
+            <InfoIcon />
+          </Button>
+          <InfoDialog isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
 
         <Map userPosition={position} />
