@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cycling Routes",
-  description: "Shows cycling routes",
+  title: "PitStop",
+  description: "Plan cycling routes that stay within bike-sharing time limits.",
 };
 
 export default function RootLayout({
