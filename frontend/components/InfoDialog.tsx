@@ -1,9 +1,10 @@
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogDescription,
-  DialogTitle,
+  DialogHeader,
+  DialogOverlay,
+  DialogTitle
 } from '@/components/ui/dialog';
 
 interface InfoDialogProps {
@@ -14,7 +15,9 @@ interface InfoDialogProps {
 export function InfoDialog({isOpen, setIsOpen}: InfoDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {/* Ensure dialog content appears above map tiles */}
+      {/* Ensure dialog overlay and content appear above map tiles */}
+      <DialogOverlay className='z-1000' />
+
       <DialogContent className='z-1000'>
         <DialogHeader>
           <DialogTitle>Title</DialogTitle>
