@@ -60,7 +60,7 @@ export default function Home() {
 
   return (
     <div className='flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
-      <div className='h-screen w-screen relative overflow-hidden'>
+      <div className='h-dvh w-dvw relative overflow-hidden'>
         {/* Desktop: Left sidebar */}
         <div className='hidden md:block absolute top-4 left-4 z-1000'>
           <div className='flex gap-2 items-start'>
@@ -76,10 +76,10 @@ export default function Home() {
             <div
               className={`
                 overflow-visible transition-all duration-500 ease-in-out
-                ${isPanelVisible ? 'w-[50vw] opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-50 pointer-events-none'}
+                ${isPanelVisible ? 'w-[50dvw] opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-50 pointer-events-none'}
               `}
             >
-              <div className={`space-y-2 max-h-[calc(100vh-2rem)] ${routes.length > 0 && 'overflow-y-auto'}`}>
+              <div className={`space-y-2 max-h-[calc(100dvh-2rem)] ${routes.length > 0 && 'overflow-y-auto'}`}>
                 <InputPanel
                   onStartSelect={(location) => setStart(location)}
                   onEndSelect={(location) => setEnd(location)}
@@ -109,10 +109,10 @@ export default function Home() {
             <div
               className={`
                 overflow-visible transition-all duration-500 ease-in-out
-                ${isPanelVisible ? 'max-h-[80vh] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-50 pointer-events-none'}
+                ${isPanelVisible ? 'max-h-[80dvh] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-50 pointer-events-none'}
               `}
             >
-              <div className={`px-2 space-y-2 max-h-[80vh] ${routes.length > 0 && 'overflow-y-auto'}`}>
+              <div className={`px-2 space-y-2 max-h-[80dvh] ${routes.length > 0 && 'overflow-y-auto'}`}>
                 <InputPanel
                   onStartSelect={(location) => setStart(location)}
                   onEndSelect={(location) => setEnd(location)}
