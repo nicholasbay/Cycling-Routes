@@ -31,6 +31,13 @@ def search(
     searchVal: str,
     pageNum: int = 1
 ):
+    """
+    Search for locations in Singapore using OneMap's Search API.
+
+    - `searchVal` (string, required): Search query (address, building name, postal code, etc.)
+
+    - `pageNum` (integer, optional): Page number of results to return (default: 1)
+    """
     try:
         token = api_dep.get_api_key()
         response = requests.get(
@@ -65,7 +72,13 @@ def get_routes(
     intervalMins: int = DEFAULT_INTERVAL_MINS
 ) -> JSONResponse:
     """
-    Returns a list of routes with its associated bicycle parking spots.
+    Find cycling routes with intermediate parking spots based on user-defined time intervals.
+
+    - `start` (string, required): Starting coordinates in `latitude,longitude` format (e.g., `1.2840,103.8514`)
+
+    - `end` (string, required): Ending coordinates in `latitude,longitude` format
+
+    - `intervalMins` (integer, optional): Time interval in minutes for parking spot placement (default: 30)
     """
     ONEMAP_ALT_ROUTES_KEY = 'alternativeroute'
 

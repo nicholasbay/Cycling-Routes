@@ -1,4 +1,4 @@
-# PitStop
+# <img src='./frontend/public/icons/distance.png' width='24' height='24' /> PitStop
 
 ## Overview
 
@@ -63,3 +63,110 @@ Navigating between the designated parking spots every 30 minutes can be a hassle
     ```bash
     uvicorn app.main:app --reload
     ```
+
+### Endpoints
+
+**`GET /`: Health Check**
+
+Returns a simple health check response to verify that the backend server is running.
+
+---
+
+**`GET /api/v1/search`: Location Search**
+
+Search for locations in Singapore using OneMap's Search API.
+
+- **Query Parameters**
+
+    - `searchVal` (string, required): Search query (address, building name, postal code, etc.)
+
+    - `pageNum` (integer, optional): Page number of results to return (default: 1)
+
+- **Response:** `200 OK`
+
+    Returns an array of location results with address details and coordinates.
+
+    ```json
+    [
+        {
+            "SEARCHVAL": "EAST COAST PARK OFFICE",
+            "BLK_NO": "906",
+            "ROAD_NAME": "EAST COAST PARKWAY",
+            "BUILDING": "EAST COAST PARK OFFICE",
+            "ADDRESS": "906 EAST COAST PARKWAY EAST COAST PARK OFFICE SINGAPORE 449895",
+            "POSTAL": "449895",
+            "X": "35574.200743217",
+            "Y": "31122.488094667",
+            "LATITUDE": "1.29773431957503",
+            "LONGITUDE": "103.901376105637"
+        }
+    ]
+    ```
+
+- **Error Responses:**
+    - `503 Service Unavailable`: OneMap API error
+    - `500 Internal Server Error`: Server error
+
+---
+
+**`GET /api/v1/routes`: Route Planning**
+
+Find cycling routes with intermediate parking spots based on user-defined time intervals.
+
+- **Query Parameters:**
+
+    - `start` (string, required): Starting coordinates in `latitude,longitude` format (e.g., `1.2840,103.8514`)
+
+    - `end` (string, required): Ending coordinates in `latitude,longitude` format
+
+    - `intervalMins` (integer, optional): Time interval in minutes for parking spot placement (default: 30)
+
+- **Response:** `200 OK`
+
+    Returns an array of routes sorted by total time, each with parking spots along the way.
+
+    ```json
+    [
+        {
+            "route_geometry": "...",
+            "route_instructions": [
+                "...",
+                "..."
+            ]
+            "route_summary": {
+                "start_point": "START POINT",
+                "end_point": "END POINT",
+                "total_time_s": 1234,
+                "total_distance_m": 5000
+            },
+            "parking_spots": [
+                {
+                    "id": 123,
+                    "description": "Parking Spot 1",
+                    "coordinates": {
+                        "lat": 1.2345,
+                        "lon": 123.45
+                    },
+                    "rack_type": "Rack Type 1",
+                    "rack_count": 10,
+                    "shelter_indicator": "Y",
+                    "deviation_m": 12.345
+                }
+            ]
+        }
+    ]
+    ```
+
+- **Error Responses:**
+    - `503 Service Unavailable`: OneMap API error
+    - `500 Internal Server Error`: Server error
+
+#### `GET
+
+## Acknowledgements
+
+- Map tiles, location search, and routing data provided by [OneMap API](https://www.onemap.gov.sg/apidocs/).
+
+- Parking spot data provided by [LTA DataMall](https://datamall.lta.gov.sg/content/datamall/en.html).
+
+- All icons provided by [Flaticon](https://www.flaticon.com/) and [Lucide](https://lucide.dev).
