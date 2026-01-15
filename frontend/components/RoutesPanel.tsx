@@ -85,13 +85,16 @@ export function RoutesPanel({ routes }: RoutesPanelProps) {
     }
   };
 
+  const startPoint = routes[0].route_summary.start_point || 'START POINT';
+  const endPoint = routes[0].route_summary.end_point || 'END POINT';
+
   return (
     <div className='p-3 md:p-4 space-y-1 bg-white rounded-lg shadow-lg w-full'>
       <h2
         className='text-sm md:text-md font-semibold mb-2 line-clamp-1'
-        title={`${routes[0].route_summary.start_point} to ${routes[0].route_summary.end_point}`}
+        title={`${startPoint} to ${endPoint}`}
       >
-        {routes[0].route_summary.start_point} to {routes[0].route_summary.end_point}
+        {startPoint} to {endPoint}
       </h2>
       {routes.map((route, index) => (
         <RouteItem
