@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowDownUp, ArrowRight, ChevronLeft, ChevronRight, ClockFading } from 'lucide-react';
+import { ArrowDownUp, ArrowRight, ClockFading } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 
 import { Input } from '@/components/ui/input';
