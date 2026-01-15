@@ -1,7 +1,8 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
+from app.constants import DEFAULT_INTERVAL_MINS, AVG_SPEED_M_PER_MIN
 from app.utils.parking import (
     _convert_time_interval_to_distance,
     _compute_cumsum_distances
@@ -9,13 +10,13 @@ from app.utils.parking import (
 
 
 class TestConvertTimeIntervalToDistance:
-    def test_default_interval(self):  # Default: 30 min
+    def test_default_interval(self):  # Default: 30 mins
         result = _convert_time_interval_to_distance()
-        assert result == 7500  # 30 min * 250 m/min
+        assert result == DEFAULT_INTERVAL_MINS * AVG_SPEED_M_PER_MIN
 
     def test_custom_interval(self):
         result = _convert_time_interval_to_distance(interval_mins=60)
-        assert result == 15000  # 60 min * 250 m/min
+        assert result == 60 * AVG_SPEED_M_PER_MIN
 
     def test_negative_interval_raises_error(self):
         with pytest.raises(ValueError):
