@@ -1,10 +1,38 @@
-# Cycling Routes
+# PitStop
 
-Finds cycling routes.
+## Overview
+
+Leisure cycling in Singapore has been and still is popular, but traditional bike rental models make longer, point-to-point routes inconvenient and costly. Bikes often have to be returned to the original outlet, and night rentals are priced higher due to manned operations of the rental outlets.
+
+Dockless bike-sharing services such as Anywheel and HelloRide offer a compelling alternative. Their multi-use passes allow unlimited rides, provided each trip stays within a fixed duration (e.g., 30 minutes). For longer routes, riders could **hypothetically** "reset the timer" by parking and unlocking the bike at designated parking spots along the way.
+
+Navigating between the designated parking spots every 30 minutes can be a hassle while out on a leisure cycle, and PitStop aims to alleviate that burden. Simply enter the start and end points, together with the preferred time intervals, and it maps out a route with the intermediate parking spots where you can reset the timer at.
 
 ## Frontend
 
-*WIP*
+### Local Development
+
+1. Install project dependencies.
+
+    ```bash
+    npm install
+    # or
+    yarn
+    # or
+    pnpm install
+    ```
+
+2. Start the local development client.
+
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    # or
+    pnpm dev
+    ```
+
+3. Visit the local development client at `http://localhost:3000`.
 
 ## Backend
 
