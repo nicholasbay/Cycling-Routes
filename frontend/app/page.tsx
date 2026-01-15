@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { ChevronLeft, ChevronUp, Info as InfoIcon } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Loading } from '@/components/Loading';
@@ -24,7 +24,14 @@ export default function Home() {
   const [end, setEnd] = useState<Location | null>(null);
   const [intervalMins, setIntervalMins] = useState<number>(DEFAULT_INTERVAL_MINS);
   const [isPanelVisible, setIsPanelVisible] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('hasVisited');
+    if (!hasVisited) {
+      setIsDialogOpen(true);
+    }
+  }, []);
 
   const Map = useMemo(() => dynamic(
     () => import('@/components/Map'),
@@ -56,6 +63,11 @@ export default function Home() {
     } finally {
       setLoading(false);
     };
+  };
+
+  const handleDialogClose = () => {
+    localStorage.setItem('hasVisited', 'true');
+    setIsDialogOpen(false);
   };
 
   return (
@@ -133,13 +145,11 @@ export default function Home() {
             className='bg-white hover:bg-zinc-100 shadow-lg'
             variant='outline'
             size='icon-lg'
-            onClick={() => {
-              setIsOpen(true);
-            }}
+            onClick={() => setIsDialogOpen(true)}
           >
             <InfoIcon />
           </Button>
-          <InfoDialog isOpen={isOpen} setIsOpen={setIsOpen} />
+          <InfoDialog isOpen={isDialogOpen} setIsOpen={handleDialogClose} />
         </div>
 
         <Map userPosition={position} />
