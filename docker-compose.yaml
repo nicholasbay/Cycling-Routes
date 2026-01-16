@@ -3,6 +3,12 @@ services:
     image: postgis/postgis:18-3.6
     platform: linux/amd64
     restart: unless-stopped
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=pitstop_db
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     env_file:
       - .env
     volumes:
@@ -19,6 +25,16 @@ services:
       - db
     restart: unless-stopped
     command: uvicorn app.main:app --host 0.0.0.0
+    environment:
+      - DATAMALL_ACCOUNT_KEY=${DATAMALL_ACCOUNT_KEY}
+      - ONEMAP_BASE_URL=https://www.onemap.gov.sg
+      - ONEMAP_EMAIL=${ONEMAP_EMAIL}
+      - ONEMAP_PASSWORD=${ONEMAP_PASSWORD}
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=pitstop_db
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     env_file:
       - .env
     networks:
