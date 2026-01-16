@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Script to load bicycle parking data from NDJSON file into PostgreSQL database.
-Reads bicycle_parking_data.ndjson and populates the parking_spots table.
+Script to load parking spots data from NDJSON file into PostgreSQL database.
+Reads parking_spots_data.ndjson and populates the parking_spots table.
 Uses batch processing (1000 records) for efficiency.
 """
 
@@ -31,7 +31,7 @@ logging.basicConfig(
 )
 
 # Constants
-NDJSON_FILE = DATA_PATH / 'bicycle_parking_data.ndjson'
+NDJSON_FILE = DATA_PATH / 'parking_spots_data.ndjson'
 TABLE_NAME = 'parking_spots'
 BATCH_SIZE = 1000
 

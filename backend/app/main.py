@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.config import get_settings
 from app.db import initialize_connection_pool, close_connection_pool
@@ -30,8 +31,12 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-@app.get('/')
-def health_check():
-    return {"message": f"{settings.APP_TITLE} is running"}
-
 app.include_router(router=v1_router)
+
+
+@app.get('/health', tags=['Health'])
+def health_check():
+    return JSONResponse(
+        content={"message": f"{settings.APP_TITLE} is running"},
+        status_code=status.HTTP_200_OK
+    )
