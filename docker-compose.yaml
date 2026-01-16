@@ -11,7 +11,9 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     env_file:
       - path: .env
-        required: false  # To prevent Portainer errors
+        required: false
+      - path: stack.env  # For Portainer
+        required: false
     volumes:
       - ./backend/db_init_scripts:/docker-entrypoint-initdb.d
       - pitstop-data:/var/lib/postgresql
@@ -38,7 +40,9 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     env_file:
       - path: .env
-        required: false  # To prevent Portainer errors
+        required: false
+      - path: stack.env  # For Portainer
+        required: false
     networks:
       - app_network
 
@@ -48,7 +52,10 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     env_file:
-      - .env
+      - path: .env
+        required: false
+      - path: stack.env  # For Portainer
+        required: false
     networks:
       - app_network
 
