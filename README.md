@@ -68,7 +68,7 @@ Navigating between the designated parking spots every 30 minutes can be a hassle
 
 ### Endpoints
 
-**`GET /`: Health Check**
+**`GET /health`: Health Check**
 
 Returns a simple health check response to verify that the backend server is running.
 

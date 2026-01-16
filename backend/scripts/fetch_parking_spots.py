@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-Script to fetch bicycle parking data from LTA DataMall API.
+Script to fetch parking spots data from LTA DataMall API.
 Queries BicycleParkingv2 endpoint for locations defined in locations.json.
-Runs monthly via cron job to update parking spot data.
 """
 
 import json
@@ -25,7 +24,7 @@ DATA_PATH.mkdir(exist_ok=True)
 
 # Configure logging
 logging.basicConfig(
-    filename=LOGS_PATH / 'fetch_bicycle_parking.log',
+    filename=LOGS_PATH / 'fetch_parking_spots.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
@@ -35,7 +34,7 @@ logging.basicConfig(
 API_URL = 'https://datamall2.mytransport.sg/ltaodataservice/BicycleParkingv2'
 DIST = 5  # Distance in kilometers
 LOCATIONS_FILE = DATA_PATH / 'locations.json'
-OUTPUT_FILE = DATA_PATH / 'bicycle_parking_data.ndjson'
+OUTPUT_FILE = DATA_PATH / 'parking_spots_data.ndjson'
 REQUEST_DELAY_S = 1  # Seconds between requests
 
 
@@ -54,9 +53,9 @@ def load_locations():
         sys.exit(1)
 
 
-def fetch_bicycle_parking(lat, lon, account_key):
+def fetch_parking_spots(lat, lon, account_key):
     """
-    Fetch bicycle parking data from LTA DataMall API.
+    Fetch parking spots data from LTA DataMall API.
     
     Args:
         lat: Latitude coordinate
@@ -64,7 +63,7 @@ def fetch_bicycle_parking(lat, lon, account_key):
         account_key: API account key for authentication
         
     Returns:
-        List of bicycle parking records or None on error
+        List of parking spots records or None on error
     """
     params = {
         'Lat': lat,
@@ -94,7 +93,7 @@ def fetch_bicycle_parking(lat, lon, account_key):
 def main():
     """Main execution function."""
     logging.info("=" * 80)
-    logging.info("Starting bicycle parking data fetch")
+    logging.info("Starting parking spots data fetch")
     start_time = datetime.now()
     
     # Load environment variables
@@ -121,13 +120,13 @@ def main():
         
         logging.info(f"Processing location {i}/{len(locations)}: ID={location_id}, {desc}")
         
-        records = fetch_bicycle_parking(lat, lon, account_key)
+        records = fetch_parking_spots(lat, lon, account_key)
         
         if records is not None:
             success_count += 1
             record_count = len(records)
             all_records.extend(records)
-            logging.info(f"  Retrieved {record_count} bicycle parking records")
+            logging.info(f"  Retrieved {record_count} parking spots records")
         else:
             failure_count += 1
             logging.warning(f"  Failed to retrieve data for location {location_id}")
@@ -162,7 +161,7 @@ def main():
     print(f"Fetch completed: {len(all_records)} records from {success_count}/{len(locations)} locations")
     print(f"Duration: {duration:.2f} seconds")
     print(f"Output: {OUTPUT_FILE}")
-    print(f"Log: {LOGS_PATH / 'fetch_bicycle_parking.log'}")
+    print(f"Log: {LOGS_PATH / 'fetch_parking_spots.log'}")
 
 
 if __name__ == '__main__':

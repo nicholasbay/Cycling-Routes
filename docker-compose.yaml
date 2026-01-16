@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgis/postgis:18-3.6
+    platform: linux/amd64
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/db_init_scripts:/docker-entrypoint-initdb.d
+      - pitstop-data:/var/lib/postgresql
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    restart: unless-stopped
+    command: uvicorn app.main:app --host 0.0.0.0
+    env_file:
+      - ./backend/.env
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - app_network
+
+  nginx:
+    image: nginx:stable-trixie
+    platform: linux/amd64
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro  # Read-only mount
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - app_network
+    restart: unless-stopped
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  pitstop-data:
+    name: pitstop-data
