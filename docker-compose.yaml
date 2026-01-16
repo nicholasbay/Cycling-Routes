@@ -10,7 +10,8 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     env_file:
-      - .env
+      - path: .env
+        required: false  # To prevent Portainer errors
     volumes:
       - ./backend/db_init_scripts:/docker-entrypoint-initdb.d
       - pitstop-data:/var/lib/postgresql
@@ -36,7 +37,8 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     env_file:
-      - .env
+      - path: .env
+        required: false  # To prevent Portainer errors
     networks:
       - app_network
 
