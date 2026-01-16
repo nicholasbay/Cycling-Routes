@@ -4,7 +4,7 @@ services:
     platform: linux/amd64
     restart: unless-stopped
     env_file:
-      - ./backend/.env
+      - .env
     volumes:
       - ./backend/db_init_scripts:/docker-entrypoint-initdb.d
       - pitstop-data:/var/lib/postgresql
@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
     command: uvicorn app.main:app --host 0.0.0.0
     env_file:
-      - ./backend/.env
+      - .env
     networks:
       - app_network
 
@@ -29,6 +29,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     restart: unless-stopped
+    env_file:
+      - .env
     networks:
       - app_network
 
