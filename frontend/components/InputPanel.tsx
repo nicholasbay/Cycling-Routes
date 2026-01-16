@@ -238,7 +238,10 @@ export function InputPanel({
   endPoint,
   intervalMins }: InputPanelProps) {
   const { loading: loadingRoutes } = useRoutes();
+  const [isRotated, setIsRotated] = useState<boolean>(false);
+
   const handleSwap = () => {
+    setIsRotated(!isRotated);
     if (startPoint) onEndSelect(startPoint);
     if (endPoint) onStartSelect(endPoint);
   };
@@ -254,9 +257,9 @@ export function InputPanel({
             variant='outline'
             size='icon'
             onClick={handleSwap}
-            title="Swap"
+            title="Swap Start and End Points"
           >
-            <ArrowDownUp className='h-4 w-4 md:h-6 md:w-6' />
+            <ArrowDownUp className={`h-4 w-4 md:h-6 md:w-6 transition-transform duration-300 ${isRotated ? 'rotate-180' : ''}`} />
           </Button>
         }
       >
