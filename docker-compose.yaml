@@ -1,6 +1,8 @@
 services:
   db:
-    image: postgis/postgis:18-3.6
+    build:
+      context: ./database
+      dockerfile: Dockerfile
     platform: linux/amd64
     restart: unless-stopped
     environment:
@@ -15,7 +17,6 @@ services:
       - path: stack.env  # For Portainer
         required: false
     volumes:
-      - ./backend/db_init_scripts:/docker-entrypoint-initdb.d
       - pitstop-data:/var/lib/postgresql
     networks:
       - app_network
