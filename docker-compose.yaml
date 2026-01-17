@@ -7,7 +7,7 @@ services:
     platform: linux/amd64
     restart: unless-stopped
     environment:
-      - POSTGRES_HOST=db
+      - POSTGRES_HOST=pitstop-db
       - POSTGRES_PORT=5432
       - POSTGRES_DATABASE=pitstop_db
       - POSTGRES_USER=${POSTGRES_USER}
@@ -27,8 +27,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     platform: linux/amd64
-    deploy:
-      replicas: 2
     depends_on:
       - pitstop-db
     restart: unless-stopped
@@ -38,7 +36,7 @@ services:
       - ONEMAP_BASE_URL=https://www.onemap.gov.sg
       - ONEMAP_EMAIL=${ONEMAP_EMAIL}
       - ONEMAP_PASSWORD=${ONEMAP_PASSWORD}
-      - POSTGRES_HOST=db
+      - POSTGRES_HOST=pitstop-db
       - POSTGRES_PORT=5432
       - POSTGRES_DATABASE=pitstop_db
       - POSTGRES_USER=${POSTGRES_USER}
