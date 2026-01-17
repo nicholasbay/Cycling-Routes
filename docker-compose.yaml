@@ -61,6 +61,7 @@ services:
       - path: stack.env  # For Portainer
         required: false
     networks:
+      - gateway_network
       - app_network
 
 networks:
