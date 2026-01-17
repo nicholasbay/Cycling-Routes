@@ -1,14 +1,28 @@
 # <img src='./frontend/public/icons/distance.png' width='24' height='24' /> PitStop
 
+## Table of Contents
+
+1. [Overview](#overview)
+
+2. [Frontend](#frontend)
+
+3. [Backend](#backend)
+
+4. [Acknowledgments](#acknowledgments)
+
+---
+
 ## Overview
 
 Leisure cycling in Singapore has been and still is popular, but traditional bike rental models make longer, point-to-point routes inconvenient and costly. Bikes often have to be returned to the original outlet, and night rentals are priced higher due to manned operations of the rental outlets.
 
 Dockless bike-sharing services such as Anywheel and HelloRide offer a compelling alternative. Their multi-use passes allow unlimited rides, provided each trip stays within a fixed duration (e.g., 30 minutes). For longer routes, riders could **hypothetically** "reset the timer" by parking and unlocking the bike at designated parking spots along the way.
 
-Navigating between the designated parking spots every 30 minutes can be a hassle while out on a leisure cycle, and PitStop aims to alleviate that burden. Simply enter the start and end points, together with the preferred time intervals, and it maps out a route with the intermediate parking spots where you can reset the timer at.
+Navigating between the designated parking spots every 30 minutes can be a hassle while out on a leisure cycle, and PitStop aims to alleviate that burden. Simply enter your start and end points together with your preferred time interval, and PitStop maps out a route with the intermediate parking spots where you can reset the timer at.
 
 ![PitStop Example](./assets/pitstop_example.jpg)
+
+---
 
 ## Frontend
 
@@ -36,6 +50,8 @@ Navigating between the designated parking spots every 30 minutes can be a hassle
 
 3. Visit the local development client at `http://localhost:3000`.
 
+---
+
 ## Backend
 
 ### Local Development
@@ -43,6 +59,10 @@ Navigating between the designated parking spots every 30 minutes can be a hassle
 1. Create a PostgreSQL database and activate the PostGIS extension. PostGIS is used for storing the coordinates of parking spots and accurately determining the distances between a point on the route and its nearest parking spot.
 
 2. Create a `.env` file as per `.env.example` and update the environment variables within.
+
+    - Get an LTA DataMall account key from [here](https://datamall.lta.gov.sg/content/datamall/en/request-for-api.html).
+
+    - Register for OneMap API access [here](https://www.onemap.gov.sg/apidocs/register).
 
 3. Create a virtual environment and activate it. Use Python 3.12.
 
@@ -65,6 +85,16 @@ Navigating between the designated parking spots every 30 minutes can be a hassle
     ```bash
     uvicorn app.main:app --reload
     ```
+
+### Tests
+
+```bash
+# Run unit tests
+python -m pytest ./tests/unit
+
+# Run integration tests
+python -m pytest ./tests/integration
+```
 
 ### Endpoints
 
@@ -163,9 +193,27 @@ Find cycling routes with intermediate parking spots based on user-defined time i
     - `503 Service Unavailable`: OneMap API error
     - `500 Internal Server Error`: Server error
 
-#### `GET
+---
 
-## Acknowledgements
+## Running with Docker
+
+```bash
+# Start local development stack
+docker-compose -f docker-compose.local.yaml up -d
+
+# Or with build
+docker-compose -f docker-compose.local.yaml up -d --build
+
+# Stop
+docker-compose -f docker-compose.local.yaml down
+
+# Stop and remove volumes
+docker-compose -f docker-compose.local.yaml down -v
+```
+
+---
+
+## Acknowledgments
 
 - Map tiles, location search, and routing data provided by [OneMap API](https://www.onemap.gov.sg/apidocs/).
 
