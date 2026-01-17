@@ -10,8 +10,6 @@
 
 4. [Acknowledgments](#acknowledgments)
 
----
-
 ## Overview
 
 Leisure cycling in Singapore has been and still is popular, but traditional bike rental models make longer, point-to-point routes inconvenient and costly. Bikes often have to be returned to the original outlet, and night rentals are priced higher due to manned operations of the rental outlets.
@@ -21,8 +19,6 @@ Dockless bike-sharing services such as Anywheel and HelloRide offer a compelling
 Navigating between the designated parking spots every 30 minutes can be a hassle while out on a leisure cycle, and PitStop aims to alleviate that burden. Simply enter your start and end points together with your preferred time interval, and PitStop maps out a route with the intermediate parking spots where you can reset the timer at.
 
 ![PitStop Example](./assets/pitstop_example.jpg)
-
----
 
 ## Frontend
 
@@ -49,8 +45,6 @@ Navigating between the designated parking spots every 30 minutes can be a hassle
     ```
 
 3. Visit the local development client at `http://localhost:3000`.
-
----
 
 ## Backend
 
@@ -193,8 +187,6 @@ Find cycling routes with intermediate parking spots based on user-defined time i
     - `503 Service Unavailable`: OneMap API error
     - `500 Internal Server Error`: Server error
 
----
-
 ## Running with Docker
 
 ```bash
@@ -210,8 +202,6 @@ docker-compose -f docker-compose.local.yaml down
 # Stop and remove volumes
 docker-compose -f docker-compose.local.yaml down -v
 ```
-
----
 
 ## Acknowledgments
 
