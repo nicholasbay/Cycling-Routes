@@ -1,5 +1,6 @@
+name: ps  # PitStop App Stack
 services:
-  db:
+  pitstop-db:
     build:
       context: ./database
       dockerfile: Dockerfile
@@ -21,13 +22,15 @@ services:
     networks:
       - app_network
 
-  backend:
+  pitstop-backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     platform: linux/amd64
+    deploy:
+      replicas: 2
     depends_on:
-      - db
+      - pitstop-db
     restart: unless-stopped
     command: uvicorn app.main:app --host 0.0.0.0
     environment:
@@ -49,7 +52,7 @@ services:
       - gateway_network
       - app_network
 
-  frontend:
+  pitstop-frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
