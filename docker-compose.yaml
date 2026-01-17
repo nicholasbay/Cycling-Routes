@@ -41,11 +41,12 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     env_file:
-      - path: .env
+      - path: .env  # For local development
         required: false
       - path: stack.env  # For Portainer
         required: false
     networks:
+      - gateway_network
       - app_network
 
   frontend:
@@ -55,29 +56,16 @@ services:
     platform: linux/amd64
     restart: unless-stopped
     env_file:
-      - path: .env
+      - path: .env  # For local development
         required: false
       - path: stack.env  # For Portainer
         required: false
     networks:
       - app_network
 
-  nginx:
-    build:
-      context: ./gateway
-      dockerfile: Dockerfile
-    platform: linux/amd64
-    container_name: nginx_proxy
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-      - frontend
-    networks:
-      - app_network
-    restart: unless-stopped
-
 networks:
+  gateway_network:  # Existing external network in Portainer
+    external: true
   app_network:
     driver: bridge
 
